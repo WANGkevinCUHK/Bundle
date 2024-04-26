@@ -1,23 +1,16 @@
-from flask_mongoengine import MongoEngine
-from models.user import User
+from datetime import datetime
+from models import db
 
-db = MongoEngine()
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    location = db.Column(db.String(200), nullable=False)
+    start_time = db.Column(db.DateTime, nullable=False)
+    end_time = db.Column(db.DateTime, nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    attendees = db.relationship('User', secondary='attendee', backref=db.backref('events_attending', lazy=True))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-class Event(db.Document):
-    title = db.StringField(required=True)
-    location = db.StringField()
-    time = db.DateTimeField()
-    description = db.StringField()
-    creator = db.ReferenceField(User)
-    participants = db.ListField(db.ReferenceField(User))
-
-    def to_json(self):
-        return {
-            "id": str(self.id),
-            "title": self.title,
-            "location": self.location,
-            "time": self.time.isoformat() if self.time else None,
-            "description": self.description,
-            "creator": self.creator.to_json(),
-            "participants": [participant.to_json() for participant in self.participants]
-        }
+    def __repr__(self):
+        return f'<Event {self.title}>'

@@ -1,4 +1,5 @@
-Flask
-Flask-MongoEngine
-bcrypt
-PyJWT
+flask
+flask-wtf
+flask-pymongo
+pymongo
+bson

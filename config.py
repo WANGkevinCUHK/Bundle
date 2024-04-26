@@ -1,9 +1,10 @@
-import os
+HOSTNAME = '127.0.0.1'
+PORT = '3306'
+DATABASE = ''
+USERNAME = ''
+PASSWORD = ''
+DB_URI = ''.format()
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'your-secret-key'
-    MONGODB_SETTINGS = {
-        'db': 'your-db-name',
-        'host': 'localhost',
-        'port': 27017
-    }
+    SECRET_KEY = '123456'
+    SQLALCHEMY_DATABASE_URI = 'mysql://username:password@host/database'
